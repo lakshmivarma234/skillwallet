@@ -1,0 +1,354 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0f1923;--surface:#131f2e;--card:#1a2840;--border:#253550;
+  --indigo:#6366f1;--aqua:#22d3ee;--aqua-dim:#0e7490;
+  --text:#f0eeea;--muted:#8a9bb5;--faint:#3a4f6a;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --r:12px;
+}
+body{background:var(--ink);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(15,25,35,.92);backdrop-filter:blur(8px);z-index:100}
+.logo{font-family:var(--font-display);font-size:17px;font-weight:700;letter-spacing:-.3px;color:var(--text)}
+.logo span{color:var(--aqua)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--indigo);color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:14px;font-family:var(--font-body);cursor:pointer;font-weight:500;transition:opacity .2s}
+.nav-cta:hover{opacity:.85}
+
+/* HERO */
+.hero{padding:80px 40px 60px;text-align:center;position:relative;overflow:hidden}
+.hero-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua);margin-bottom:18px;font-family:var(--font-display)}
+.hero h1{font-family:var(--font-display);font-size:clamp(36px,5vw,62px);font-weight:700;line-height:1.1;letter-spacing:-.03em;color:var(--text);max-width:820px;margin:0 auto 20px}
+.hero h1 em{font-style:normal;color:var(--indigo)}
+.hero-sub{color:var(--muted);font-size:17px;max-width:560px;margin:0 auto 40px;line-height:1.65}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
+.btn-primary{background:var(--indigo);color:#fff;border:none;padding:13px 28px;border-radius:10px;font-size:15px;font-family:var(--font-body);font-weight:500;cursor:pointer;transition:opacity .2s}
+.btn-primary:hover{opacity:.85}
+.btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border);padding:13px 28px;border-radius:10px;font-size:15px;font-family:var(--font-body);font-weight:500;cursor:pointer;transition:border-color .2s}
+.btn-ghost:hover{border-color:var(--faint)}
+
+/* WAVEFORM CANVAS */
+.waveform-wrap{position:relative;margin:0 auto;max-width:740px;height:110px}
+canvas#wc{width:100%;height:100%;display:block}
+.waveform-label{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--muted);letter-spacing:.06em;white-space:nowrap}
+.wave-badge{position:absolute;top:12px;right:16px;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.25);color:var(--aqua);font-size:11px;font-family:var(--font-display);padding:4px 10px;border-radius:20px;font-weight:500}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border) 20%,var(--border) 80%,transparent);margin:72px 40px 0}
+
+/* SCENARIOS */
+.scenarios{padding:64px 40px;max-width:1100px;margin:0 auto}
+.section-label{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;font-family:var(--font-display)}
+.section-title{font-family:var(--font-display);font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:40px;color:var(--text)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;transition:border-color .2s,transform .2s;cursor:default}
+.card:hover{border-color:var(--indigo);transform:translateY(-2px)}
+.card-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:20px}
+.card-icon.indigo{background:rgba(99,102,241,.15)}
+.card-icon.aqua{background:rgba(34,211,238,.12)}
+.card-icon.green{background:rgba(52,211,153,.12)}
+.card h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin-bottom:8px;color:var(--text)}
+.card p{color:var(--muted);font-size:14px;line-height:1.65}
+.card-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.tag{font-size:11px;font-weight:500;font-family:var(--font-display);padding:3px 9px;border-radius:20px;border:1px solid}
+.tag.i{color:#a5b4fc;border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.08)}
+.tag.a{color:#67e8f9;border-color:rgba(34,211,238,.3);background:rgba(34,211,238,.07)}
+.tag.g{color:#6ee7b7;border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.07)}
+
+/* METRICS STRIP */
+.metrics{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px;display:flex;justify-content:center;gap:0;flex-wrap:wrap}
+.metric{text-align:center;padding:0 48px;border-right:1px solid var(--border)}
+.metric:last-child{border-right:none}
+.metric-val{font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1}
+.metric-val span{color:var(--aqua)}
+.metric-label{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* PIPELINE */
+.pipeline{padding:64px 40px;max-width:1100px;margin:0 auto}
+.pipeline-steps{display:flex;gap:0;align-items:stretch;flex-wrap:wrap;margin-top:32px}
+.pipe-step{flex:1;min-width:160px;padding:22px 20px;position:relative}
+.pipe-step::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--faint);font-size:18px;z-index:1}
+.pipe-step:last-child::after{display:none}
+.pipe-num{font-family:var(--font-display);font-size:11px;font-weight:600;color:var(--indigo);letter-spacing:.1em;margin-bottom:8px}
+.pipe-name{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
+.pipe-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* SCORE DEMO */
+.demo-strip{padding:0 40px 64px;max-width:1100px;margin:0 auto}
+.score-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:32px;display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+.score-ring{position:relative;width:120px;height:120px;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring .score-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font-display)}
+.score-ring .score-num strong{font-size:28px;font-weight:700;color:var(--text);line-height:1}
+.score-ring .score-num span{font-size:11px;color:var(--muted)}
+.score-details{flex:1;min-width:220px}
+.score-details h4{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px}
+.score-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;font-family:var(--font-display);background:rgba(52,211,153,.12);color:#6ee7b7;border:1px solid rgba(52,211,153,.3);margin-bottom:14px}
+.score-bars{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.bar-track{flex:1;height:5px;background:var(--faint);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+
+/* CTA */
+.cta{padding:80px 40px;text-align:center;position:relative;overflow:hidden}
+.cta h2{font-family:var(--font-display);font-size:36px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px;color:var(--text)}
+.cta p{color:var(--muted);font-size:16px;max-width:480px;margin:0 auto 32px}
+.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 80%,rgba(99,102,241,.08) 0%,transparent 70%);pointer-events:none}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer p{font-size:13px;color:var(--muted)}
+.foot-links{display:flex;gap:20px}
+.foot-links a{font-size:13px;color:var(--muted);text-decoration:none}
+.foot-links a:hover{color:var(--text)}
+
+@keyframes wave-pulse{0%,100%{opacity:1}50%{opacity:.6}}
+</style>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">VB<span>CUA</span></div>
+  <ul class="nav-links">
+    <li><a href="#">How it works</a></li>
+    <li><a href="#">Features</a></li>
+    <li><a href="#">Scenarios</a></li>
+    <li><a href="#">Docs</a></li>
+  </ul>
+  <button class="nav-cta" onclick="sendPrompt('How do I get started with VBCUA?')">Get started</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Voice-Based Concept Understanding Analyser</div>
+  <h1>Your voice reveals how well you <em>understand</em></h1>
+  <p class="hero-sub">Upload a spoken explanation. VBCUA transcribes, analyses, and scores your conceptual understanding using AI — with detailed feedback on fluency, depth, and accuracy.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="sendPrompt('Walk me through uploading audio in VBCUA')">Upload an explanation</button>
+    <button class="btn-ghost" onclick="sendPrompt('What concepts can I be evaluated on in VBCUA?')">Browse concepts</button>
+  </div>
+  <div class="waveform-wrap">
+    <div class="wave-badge">● Live analysis</div>
+    <canvas id="wc" height="110"></canvas>
+    <div class="waveform-label">Waveform · "Machine Learning is a subset of AI that enables systems to learn from data…"</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="metric"><div class="metric-val">3<span>s</span></div><div class="metric-label">Avg. transcription time</div></div>
+  <div class="metric"><div class="metric-val">95<span>%</span></div><div class="metric-label">Whisper accuracy</div></div>
+  <div class="metric"><div class="metric-val">12<span>+</span></div><div class="metric-label">Speech quality metrics</div></div>
+  <div class="metric"><div class="metric-val">PDF</div><div class="metric-label">Downloadable reports</div></div>
+</div>
+
+<!-- PIPELINE -->
+<section class="pipeline">
+  <div class="section-label">How it works</div>
+  <div class="section-title">From voice to verdict in seconds</div>
+  <div class="pipeline-steps">
+    <div class="pipe-step">
+      <div class="pipe-num">01 · UPLOAD</div>
+      <div class="pipe-name">Record or upload</div>
+      <div class="pipe-desc">WAV, MP3, or M4A. Direct recording supported.</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">02 · TRANSCRIBE</div>
+      <div class="pipe-name">Whisper STT</div>
+      <div class="pipe-desc">OpenAI Whisper converts speech to accurate text.</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">03 · ANALYSE</div>
+      <div class="pipe-name">Semantic + audio</div>
+      <div class="pipe-desc">SBERT embeddings + Librosa signal analysis run in parallel.</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">04 · SCORE</div>
+      <div class="pipe-name">Understanding level</div>
+      <div class="pipe-desc">Composite score with Strong / Moderate / Poor verdict.</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">05 · REPORT</div>
+      <div class="pipe-name">Download PDF</div>
+      <div class="pipe-desc">Waveform, metrics, AI feedback — all in one document.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section class="scenarios">
+  <div class="section-label">Three evaluation modes</div>
+  <div class="section-title">What VBCUA measures</div>
+  <div class="cards">
+    <div class="card" onclick="sendPrompt('Tell me more about semantic understanding evaluation in VBCUA')">
+      <div class="card-icon indigo">🧠</div>
+      <h3>Semantic understanding</h3>
+      <p>Compares your explanation against a reference concept using Sentence-BERT embeddings. Surfaces missed ideas, deviations, and conceptual gaps.</p>
+      <div class="card-tags">
+        <span class="tag i">SBERT</span>
+        <span class="tag i">Cosine similarity</span>
+        <span class="tag i">Concept scoring</span>
+      </div>
+    </div>
+    <div class="card" onclick="sendPrompt('How does VBCUA measure speech fluency?')">
+      <div class="card-icon aqua">🎙️</div>
+      <h3>Fluency analysis</h3>
+      <p>Detects filler words ("um", "uh", "like"), pause ratio, RMS energy, and zero-crossing rate via Librosa to quantify delivery confidence.</p>
+      <div class="card-tags">
+        <span class="tag a">Librosa</span>
+        <span class="tag a">Filler words</span>
+        <span class="tag a">Pause ratio</span>
+      </div>
+    </div>
+    <div class="card" onclick="sendPrompt('What does the VBCUA evaluation report contain?')">
+      <div class="card-icon green">📊</div>
+      <h3>Interactive reports</h3>
+      <p>Full Streamlit dashboard with waveform visualisation, score breakdown, and AI-generated feedback. Export as structured PDF for academic review.</p>
+      <div class="card-tags">
+        <span class="tag g">Streamlit</span>
+        <span class="tag g">PDF export</span>
+        <span class="tag g">Feedback</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCORE DEMO -->
+<div class="demo-strip">
+  <div class="score-card">
+    <div class="score-ring">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#253550" stroke-width="10"/>
+        <circle id="score-arc" cx="60" cy="60" r="50" fill="none" stroke="#6366f1" stroke-width="10"
+          stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"/>
+      </svg>
+      <div class="score-num"><strong id="score-display">0</strong><span>/ 100</span></div>
+    </div>
+    <div class="score-details">
+      <h4>Machine Learning — sample evaluation</h4>
+      <div class="score-badge">Strong understanding</div>
+      <div class="score-bars">
+        <div class="bar-row">
+          <span style="width:110px">Semantic match</span>
+          <div class="bar-track"><div class="bar-fill" id="b1" style="width:0%;background:#6366f1"></div></div>
+          <span id="l1">0%</span>
+        </div>
+        <div class="bar-row">
+          <span style="width:110px">Speech fluency</span>
+          <div class="bar-track"><div class="bar-fill" id="b2" style="width:0%;background:#22d3ee"></div></div>
+          <span id="l2">0%</span>
+        </div>
+        <div class="bar-row">
+          <span style="width:110px">Filler word ratio</span>
+          <div class="bar-track"><div class="bar-fill" id="b3" style="width:0%;background:#34d399"></div></div>
+          <span id="l3">0%</span>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1;min-width:200px;border-left:1px solid var(--border);padding-left:28px">
+      <p style="font-size:12px;color:var(--muted);line-height:1.7">
+        <strong style="color:var(--text);font-size:13px;font-family:'Space Grotesk',sans-serif">AI feedback</strong><br><br>
+        Your explanation accurately covers supervised learning and generalisation. Consider expanding on unsupervised learning and gradient descent to strengthen conceptual depth.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to test your understanding?</h2>
+  <p>Upload your first explanation and get a full evaluation report in under 30 seconds.</p>
+  <button class="btn-primary" onclick="sendPrompt('How do I set up VBCUA locally with Streamlit?')">Start evaluating →</button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>VBCUA · Voice-Based Concept Understanding Analyser</p>
+  <div class="foot-links">
+    <a href="#">GitHub</a>
+    <a href="#">Docs</a>
+    <a href="#">Report an issue</a>
+  </div>
+</footer>
+
+<script>
+// WAVEFORM ANIMATION
+const canvas = document.getElementById('wc');
+const ctx = canvas.getContext('2d');
+let phase = 0;
+const segments = 80;
+const amplitudes = Array.from({length:segments}, () => 0.1 + Math.random() * 0.9);
+
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+  canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function drawWave() {
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  ctx.clearRect(0, 0, W, H);
+  const barW = W / segments;
+  for (let i = 0; i < segments; i++) {
+    const t = (phase + i * 0.18) % (Math.PI * 2);
+    const envelope = Math.sin(Math.PI * i / segments);
+    const h = amplitudes[i] * envelope * (0.5 + 0.5 * Math.sin(t)) * H * 0.72;
+    const x = i * barW + barW * 0.15;
+    const y = (H - h) / 2;
+    const alpha = 0.35 + 0.65 * envelope;
+    ctx.fillStyle = `rgba(34,211,238,${alpha})`;
+    ctx.beginPath();
+    ctx.roundRect(x, y, barW * 0.6, h, 2);
+    ctx.fill();
+  }
+  phase += 0.035;
+  requestAnimationFrame(drawWave);
+}
+drawWave();
+
+// SCORE ANIMATION
+let animated = false;
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !animated) {
+      animated = true;
+      animateScore();
+    }
+  });
+}, {threshold: 0.3});
+observer.observe(document.querySelector('.score-card'));
+
+function animateScore() {
+  const target = 82;
+  const arc = document.getElementById('score-arc');
+  const display = document.getElementById('score-display');
+  const circ = 314;
+  const bars = [{el:'b1',lbl:'l1',val:87},{el:'b2',lbl:'l2',val:74},{el:'b3',lbl:'l3',val:91}];
+  let frame = 0, total = 70;
+  function tick() {
+    frame++;
+    const p = Math.min(frame / total, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const cur = Math.round(ease * target);
+    display.textContent = cur;
+    arc.setAttribute('stroke-dashoffset', circ - (circ * ease * target / 100));
+    bars.forEach(b => {
+      const v = Math.round(ease * b.val);
+      document.getElementById(b.el).style.width = v + '%';
+      document.getElementById(b.lbl).textContent = v + '%';
+    });
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  tick();
+}
+</script>
